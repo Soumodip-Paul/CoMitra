@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/CoMitra/static/css/main.a9e713d2.chunk.css",
+    "main.js": "/CoMitra/static/js/main.f72e476e.chunk.js",
+    "main.js.map": "/CoMitra/static/js/main.f72e476e.chunk.js.map",
+    "runtime-main.js": "/CoMitra/static/js/runtime-main.3238a73a.js",
+    "runtime-main.js.map": "/CoMitra/static/js/runtime-main.3238a73a.js.map",
+    "static/js/2.a00d2103.chunk.js": "/CoMitra/static/js/2.a00d2103.chunk.js",
+    "static/js/2.a00d2103.chunk.js.map": "/CoMitra/static/js/2.a00d2103.chunk.js.map",
+    "index.html": "/CoMitra/index.html",
+    "static/css/main.a9e713d2.chunk.css.map": "/CoMitra/static/css/main.a9e713d2.chunk.css.map",
+    "static/js/2.a00d2103.chunk.js.LICENSE.txt": "/CoMitra/static/js/2.a00d2103.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3238a73a.js",
+    "static/js/2.a00d2103.chunk.js",
+    "static/css/main.a9e713d2.chunk.css",
+    "static/js/main.f72e476e.chunk.js"
+  ]
+}
