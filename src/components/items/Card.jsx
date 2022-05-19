@@ -36,9 +36,9 @@ export const Card = ({ element }) => {
                     Slots:
                 </p>
                 <div className="row">
-                {element.slots.map(e =>{ return (
-                    <div className="col-md-6" key={e}>
-                    <button style={{fontSize: '13px'}} disabled={true} className="btn btn-outline-success my-1 rounded-pill">{e}</button>
+                {element.slots.map((e,i) =>{ return (
+                    <div className="col-md-6" key={i}>
+                    <button style={{fontSize: '13px'}} disabled={true} className="btn btn-outline-success my-1 rounded-pill">{e.time}</button>
                     </div>
                 )})}
                 </div>
