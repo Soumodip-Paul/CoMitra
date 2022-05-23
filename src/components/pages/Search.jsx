@@ -14,7 +14,7 @@ export const Search = () => {
     const [free, setFree] = useState(false)
     const [paid, setPaid] = useState(false)
     const [search, setSearch] = useState('')
-    const [_18to45, set_18to45] = useState(false)
+    const [_12to45, set_12to45] = useState(false)
     const [_45andAbove, set_45andAbove] = useState(false)
     const [allAgeGroup, setAllAgeGroup] = useState(false)
 
@@ -25,7 +25,7 @@ export const Search = () => {
         setDose1Filter(false)
         setDose2Filter(false)
         setAllAgeGroup(false)
-        set_18to45(false)
+        set_12to45(false)
         set_45andAbove(false)
         setFree(false)
         setPaid(false)
@@ -55,14 +55,14 @@ export const Search = () => {
             ) &&
             (
                 (
-                    (!_18to45 || (e.min_age_limit === 18 && !e.allow_all_age)) &&
+                    (!_12to45 || (e.min_age_limit === 12 && !e.allow_all_age)) &&
                     (!_45andAbove || (e.min_age_limit === 45 && !e.allow_all_age)) &&
                     !(allAgeGroup && !e.allow_all_age)
                 )
-                || (_18to45 && allAgeGroup && (e.allow_all_age || e.min_age_limit === 18))
+                || (_12to45 && allAgeGroup && (e.allow_all_age || e.min_age_limit === 12))
                 || (_45andAbove && allAgeGroup && e.min_age_limit === 45)
-                || (_18to45 && _45andAbove && !e.allow_all_age)
-                || (_18to45 && _45andAbove && allAgeGroup)
+                || (_12to45 && _45andAbove && !e.allow_all_age)
+                || (_12to45 && _45andAbove && allAgeGroup)
             ) &&
             (
                 !(search.length !== 0 &&
@@ -89,8 +89,8 @@ export const Search = () => {
 
     const AgeFilter = e => {
         setAllAgeGroup(e.target.value === "-1")
-        set_18to45(e.target.value === "0")
-        set_45andAbove(e.target.value === "1")
+        set_12to45(e.target.value === "0" || e.target.value === "-1")
+        set_45andAbove(e.target.value === "1" || e.target.value === "-1")
     }
 
     const LoadSessions = () => {
@@ -177,7 +177,7 @@ export const Search = () => {
                                                 <label htmlFor="Age" className="leading-7 text-sm text-gray-600">Age</label>
                                                 <select id="Age" name="Age" className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-transparent focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" onChange={AgeFilter}>
                                                     <option value={-1}>All ages</option>
-                                                    <option value={0}>18 to 45 year</option>
+                                                    <option value={0}>12 to 44 year</option>
                                                     <option value={1}>45 and Above</option>
 
                                                 </select>

@@ -83,7 +83,6 @@ export const CovidVaccine = () => {
         let req = await fetch("https://cdn-api.co-vin.in/api/v1/reports/v2/getPublicReports?date=" + (new Date().toISOString().slice(0, 10)))
         let response = await req.json()
         setVaccine(response.topBlock.vaccination)
-        console.log(response.topBlock.vaccination)
     }
 
     return (

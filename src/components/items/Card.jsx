@@ -24,7 +24,7 @@ export const Card = ({ element }) => {
             <div className="h-full p-6 rounded-lg border-2 border-indigo-500 flex flex-col relative overflow-hidden">
                 <span className="bg-indigo-500 text-white px-3 py-1 tracking-widest text-xs absolute right-0 top-0 rounded-bl">{element.vaccine.toLocaleUpperCase()}</span>
                 <h2 className="text-sm tracking-widest title-font mb-1 font-medium uppercase">
-                    {element.allow_all_age ? "18 & above" : element.min_age_limit === 45 ? "45 & above" : "18 to 45"}
+                    {element.allow_all_age ? "12 & above" : element.min_age_limit === 45 ? "45 & above" : "12 to 45"}
                 </h2>
                 <h1 className="text-xl text-gray-900 leading-none flex items-center pb-4 mb-4 border-b border-gray-200 flex-col">
                     <b>{element.name}</b>
