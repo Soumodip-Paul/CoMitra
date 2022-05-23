@@ -45,28 +45,18 @@ export const PinUtils = ({ setData, setLoading, setSubmitClick }) => {
         setSubmitClick(0)
     }, [setSubmitClick])
     return (
-        <form className="g-3 needs-validation" id="form_001" noValidate onSubmit={onSubmitPin}>
-                <div className="input-group  mb-3">
-                    <span className="input-group-text bg-success text-light" style={{
-                        borderRadius: "12px 0 0 12px"
-                    }}>Enter PIN</span>
-                    <input className="form-control" type="text" placeholder="Enter PIN" maxLength={6} minLength={6} aria-label="Enter PIN" aria-describedby="button-addon" value={pin} onChange={onChange} required style={{
-                        borderRadius: "0 12px 12px 0"
-                    }} />
-                    <div className="invalid-feedback">
-                        Invalid Pin Code!
-                    </div>
-                </div>
-                <div className="input-group  mb-3">
-                    <span className="input-group-text bg-success text-light" style={{
-                        borderRadius: "12px 0 0 12px"
-                    }}>DATE</span>
-                    <input className="form-control" type="date" name="date" id="date" value={date} onChange={onDateChanged} />
-
-                    <button className="btn btn-info text-light" type="submit" id="button-addon" style={{
-                        borderRadius: "0 12px 12px 0"
-                    }}>Submit</button>
-                </div>
+        <form className="lg:sticky lg:top-4 lg:w-2/6 bg-gray-100 rounded-lg p-8 flex flex-col w-full" id="form_001" onSubmit={onSubmitPin}>
+            <h2 className="text-gray-900 text-lg font-medium title-font mb-5">Enter your details</h2>
+            <div className="relative mb-4">
+                <label htmlFor="full-name" className="leading-7 text-sm text-gray-600">Pincode</label>
+                <input type="text" placeholder="Enter PIN" pattern="[0-9]{6}" aria-label="Enter PIN" aria-describedby="button-addon" value={pin} onChange={onChange} required className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+            </div>
+            <div className="relative mb-4">
+                <label htmlFor="email" className="leading-7 text-sm text-gray-600">Date</label>
+                <input type="date" name="date" id="date" value={date} onChange={onDateChanged}  className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+            </div>
+            <button type="submit" className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Submit</button>
+            <p className="text-xs text-gray-500 mt-3">Find the available vaccinations in your area using your pincode</p>
         </form>
     )
 }

@@ -1,30 +1,23 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, Fragment, useRef, } from 'react'
 import { tokenLable } from '../assets/js/_config'
 import { Auth } from '../context/authContext'
 import { generateOTP } from '../network/handleOTP'
 import { validateOTP } from '../network/handleOTP'
+import { Dialog, Transition } from '@headlessui/react'
+import { LoginIcon } from '@heroicons/react/outline'
+import { showInfoAlert, showErrorAlert } from '../items/Toast'
 
 export const Login = () => {
+
+    const [open, setOpen] = useState(false)
+    const cancelButtonRef = useRef(null)
     const [processing, setProcessing] = useState(false)
     const [otp, setOtp] = useState('')
     const [phoneNo, setPhoneNo] = useState('')
     const [accessToken, setAccessToken] = useState('')
-    const [alertOpacity, setAlertOpacity] = useState(0)
-    const [time, setTime] = useState(180)
-    const [alertText, setAlertText] = useState('')
+    const [time, setTime] = useState(-1)
     const login = useContext(Auth)
     const { setAuthToken } = login;
-    const id = "login";
-
-
-    const showAlert = (text) => {
-        setAlertText(text)
-        setAlertOpacity(1)
-        setTimeout(() => {
-            setAlertOpacity(0)
-            setAlertText('')
-        }, 1500)
-    }
 
     const submitPhoneNumber = async e => {
         let data = await generateOTP(phoneNo)
@@ -35,17 +28,17 @@ export const Login = () => {
         }
         else {
             resetField()
-            showAlert("Enter a valid mobile number")
+            showErrorAlert("Enter a valid mobile number")
         }
     }
 
     useEffect(() => {
         let key = setTimeout(() => {
             if (time > 0) { setTime(time - 1) }
-            else {
-                resetField()
+            else if (time === 0) {
                 setAccessToken('')
-                showAlert("Timed Out")
+                showErrorAlert("Timed Out")
+                resetField()
             }
 
         }, 1000)
@@ -59,57 +52,134 @@ export const Login = () => {
         let data = await validateOTP(otp, accessToken)
         if (data) {
             setAccessToken('')
-            resetField()
             window.sessionStorage.setItem(tokenLable, data.token)
             setAuthToken(data.token)
-            document.getElementById("closeLogin").click()
+            resetField()
         }
         else {
-            showAlert("Enter a valid OTP")
+            showErrorAlert("Enter a valid OTP")
         }
     }
 
     const resetField = () => {
+        setOpen(false)
         setProcessing(false)
         setOtp('')
         setPhoneNo('')
     }
 
     return (
-        <div className="modal fade roboto-slab" id={id} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby={`${id}Label`} aria-hidden="true">
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title" id={`${id}Label`}>Login Required</h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div className="modal-body">
-                        <div className="d-block text-center fw-bolder " style={{ height: "25px" }}>{processing && <> Your OTP is valid for <span className="text-danger">{time} sec </span> </>}</div>
-                        {!processing ?
-                            <>
-                                <div className="form-floating mb-3">
-                                    <input type="text" className="form-control no-border" id="pNo" placeholder="Enter Your Phone Number" value={phoneNo} onChange={e => setPhoneNo(e.target.value)} />
-                                    <label htmlFor="pNo">Phone Number</label>
-                                    <div className="form-text pNo">Enter your registered phone Number here</div>
-                                </div>
-                            </>
-                            :
-                            <div className="form-floating mb-3">
-                                <input type="password" className="form-control no-border" id="floatingPassword" placeholder="Password" value={otp} onChange={e => { setOtp(e.target.value); }} />
-                                <label htmlFor="floatingPassword">OTP</label>
-                            </div>
-                        }
-                        <div className="alert alert-danger mb-2 p-2 text-danger" style={{ opacity: alertOpacity, height: "40px" }} role="alert">
-                            {alertText}
+        <>
+            <button id='loginButton' className="inline-flex items-center border-0 py-1 px-6 focus:outline-none rounded text-base mt-4 md:mt-0 text-white bg-indigo-500 hover:bg-indigo-600" onClick={e => setOpen(!open)}>Log In</button>
+            <Transition.Root show={open} as={Fragment}>
+                <Dialog as="form" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen} onSubmit={ e=> {
+                    e.preventDefault();
+                    if (!processing) submitPhoneNumber()
+                    else submitOTP()
+                    }} >
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                    </Transition.Child>
+
+                    <div className="fixed z-10 inset-0 overflow-y-auto">
+                        <div className="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            >
+                                <Dialog.Panel className="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+                                    <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                        <div className="sm:flex sm:items-start">
+                                            <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10">
+                                                <LoginIcon className="h-6 w-6 text-indigo-600" aria-hidden="true" />
+                                            </div>
+                                            <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                                                <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
+                                                    Log In Required
+                                                </Dialog.Title>
+                                                <div className="mt-8 space-y-6">
+                                                    <div className="rounded-md shadow-sm -space-y-px">
+                                                        {!processing ? <div>
+                                                            <label htmlFor="phone-number" className="sr-only">
+                                                                Phone Number
+                                                            </label>
+                                                            <input
+                                                                id="phone-number"
+                                                                name="phone"
+                                                                type="tel"
+                                                                value={phoneNo}
+                                                                max={9999999999}
+                                                                maxLength={10}
+                                                                pattern={"[0-9]{10}"}
+                                                                autoComplete="email"
+                                                                required
+                                                                onChange={e => setPhoneNo(e.target.value)}
+                                                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                                                placeholder="Enter phone Number"
+                                                            />
+                                                        </div> :
+                                                            <div>
+                                                                <label htmlFor="password" className="sr-only">
+                                                                    Password
+                                                                </label>
+                                                                <input
+                                                                    id="password"
+                                                                    name="password"
+                                                                    type="password"
+                                                                    autoComplete="current-password"
+                                                                    value={otp}
+                                                                    maxLength={6}
+                                                                    required
+                                                                    onChange={ e => setOtp(e.target.value)}
+                                                                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                                                    placeholder="Enter OTP"
+                                                                />
+                                                            </div>}
+                                                    </div>
+                                                    <small className='text-gray-500 pb-10'><em>{!processing?
+                                                    "Enter your registered phone number":
+                                                    <b>Your OTP is valid for <span className='text-red-500'>{time} secs</span></b>}</em></small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+
+                                        <button
+                                            type="submit"
+                                            className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 mb-4 md:mb-0 bg-white text-base font-medium text-gray-700 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                            onClick={ e =>{} } disabled={ !processing ? phoneNo.length === 0 : false }
+                                        >
+                                            {!processing?"Login":"Submit OTP"}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                            onClick={() => {resetField(); showInfoAlert("Cancelled")} } ref={cancelButtonRef}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
                         </div>
                     </div>
-                    <div className="modal-footer">
-                        <button type="button" id="closeLogin" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => resetField()}>Close</button>
-                        <button type="button" className="btn btn-primary" onClick={!processing ? e => submitPhoneNumber() : e => submitOTP()} disabled={ !processing ? phoneNo.length === 0 : false }>Confirm</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                </Dialog>
+            </Transition.Root>
+        </>
     )
 }
 
@@ -120,14 +190,10 @@ export const LoginButton = () => {
     const { authToken, setAuthToken } = login;
     const logOut = e => {
         setAuthToken(null)
-        if (typeof (Storage) !== undefined) {
-            window.sessionStorage.removeItem(tokenLable)
-        }
+        window.sessionStorage.removeItem(tokenLable)
     }
     useEffect(() => {
-        if (typeof (Storage) !== undefined) {
-            setAuthToken(window.sessionStorage.getItem(tokenLable))
-        }
+        setAuthToken(window.sessionStorage.getItem(tokenLable))
     }, [setAuthToken])
     return (
         !authToken ?

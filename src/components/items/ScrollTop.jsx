@@ -19,7 +19,7 @@ export const ScrollTop = () => {
     }
 
     return (
-        <div className="bg-dark" style={{
+        <div className="bg-indigo-900 cursor-pointer" style={{
             height: "30px",
             width: "30px",
             position: 'fixed',
