@@ -14,8 +14,8 @@ export async function validateOTP(OTP, txnId) {
             body: JSON.stringify(data)
         }
         )
-        if (response.status === 200) { return response.json() }
-        else return null;
+        return response;
+
     } catch (e) {
         return null
     }
@@ -36,8 +36,7 @@ export const generateOTP = async (phoneNo) => {
             body: JSON.stringify(data)
         }
         )
-        if (response.status === 200) { return response.json() }
-        else return null;
+        return response
     }
     catch (e) {
         return null

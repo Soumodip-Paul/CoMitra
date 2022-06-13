@@ -5,34 +5,51 @@ import { generateOTP } from '../network/handleOTP'
 import { validateOTP } from '../network/handleOTP'
 import { Dialog, Transition } from '@headlessui/react'
 import { LoginIcon } from '@heroicons/react/outline'
-import { showInfoAlert, showErrorAlert } from '../items/Toast'
+import { showInfoAlert, showErrorAlert, showSuccessAlert } from '../items/Toast'
 
 export const Login = () => {
 
-    const [open, setOpen] = useState(false)
     const cancelButtonRef = useRef(null)
+    const [open, setOpen] = useState(false)
     const [processing, setProcessing] = useState(false)
     const [otp, setOtp] = useState('')
     const [phoneNo, setPhoneNo] = useState('')
     const [accessToken, setAccessToken] = useState('')
     const [time, setTime] = useState(-1)
     const login = useContext(Auth)
-    const { setAuthToken } = login;
+    const { authToken, setAuthToken } = login;
+
+    const logOut = e => {
+        setAuthToken(null)
+        window.sessionStorage.removeItem(tokenLable)
+        showSuccessAlert("Successfully Logged Out")
+    }
+
 
     const submitPhoneNumber = async e => {
-        let data = await generateOTP(phoneNo)
-        if (data) {
+
+        let response = await generateOTP(phoneNo)
+        if (!response) {
+            resetField()
+            showErrorAlert("Internal Error Occured")
+            return
+        }
+        if (response.ok) {
+            let data = await response.json()
             setProcessing(true)
             setAccessToken(data.txnId)
+            showSuccessAlert("OTP sent Successfully ")
             setTime(180)
         }
         else {
+            let data = await response.text()
+            showErrorAlert(data)
             resetField()
-            showErrorAlert("Enter a valid mobile number")
         }
     }
 
     useEffect(() => {
+        setAuthToken(window.sessionStorage.getItem(tokenLable))
         let key = setTimeout(() => {
             if (time > 0) { setTime(time - 1) }
             else if (time === 0) {
@@ -46,18 +63,24 @@ export const Login = () => {
             clearTimeout(key)
         }
 
-    }, [time])
+    }, [time,setAuthToken])
 
     const submitOTP = async e => {
-        let data = await validateOTP(otp, accessToken)
-        if (data) {
+        let response = await validateOTP(otp, accessToken)
+        if (!response) {
+            resetField()
+            showErrorAlert("Internal Error Occured")
+        }
+        const data = await response.json()
+        if (response.ok) {
             setAccessToken('')
             window.sessionStorage.setItem(tokenLable, data.token)
             setAuthToken(data.token)
+            showSuccessAlert("Successfully Logged In")
             resetField()
         }
         else {
-            showErrorAlert("Enter a valid OTP")
+            showErrorAlert(data.error)
         }
     }
 
@@ -69,14 +92,15 @@ export const Login = () => {
     }
 
     return (
+        !authToken ?
         <>
             <button id='loginButton' className="inline-flex items-center border-0 py-1 px-6 focus:outline-none rounded text-base mt-4 md:mt-0 text-white bg-indigo-500 hover:bg-indigo-600" onClick={e => setOpen(!open)}>Log In</button>
             <Transition.Root show={open} as={Fragment}>
-                <Dialog as="form" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen} onSubmit={ e=> {
+                <Dialog as="form" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen} onSubmit={e => {
                     e.preventDefault();
                     if (!processing) submitPhoneNumber()
                     else submitOTP()
-                    }} >
+                }} >
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -143,15 +167,15 @@ export const Login = () => {
                                                                     value={otp}
                                                                     maxLength={6}
                                                                     required
-                                                                    onChange={ e => setOtp(e.target.value)}
+                                                                    onChange={e => setOtp(e.target.value)}
                                                                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                                                     placeholder="Enter OTP"
                                                                 />
                                                             </div>}
                                                     </div>
-                                                    <small className='text-gray-500 pb-10'><em>{!processing?
-                                                    "Enter your registered phone number":
-                                                    <b>Your OTP is valid for <span className='text-red-500'>{time} secs</span></b>}</em></small>
+                                                    <small className='text-gray-500 pb-10'><em>{!processing ?
+                                                        "Enter your registered phone number" :
+                                                        <b>Your OTP is valid for <span className='text-red-500'>{time} secs</span></b>}</em></small>
                                                 </div>
                                             </div>
                                         </div>
@@ -161,14 +185,14 @@ export const Login = () => {
                                         <button
                                             type="submit"
                                             className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 mb-4 md:mb-0 bg-white text-base font-medium text-gray-700 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                            onClick={ e =>{} } disabled={ !processing ? phoneNo.length === 0 : false }
+                                            onClick={e => { }} disabled={!processing ? phoneNo.length === 0 : false}
                                         >
-                                            {!processing?"Login":"Submit OTP"}
+                                            {!processing ? "Login" : "Submit OTP"}
                                         </button>
                                         <button
                                             type="button"
                                             className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                            onClick={() => {resetField(); showInfoAlert("Cancelled")} } ref={cancelButtonRef}
+                                            onClick={() => { resetField(); showInfoAlert("Cancelled") }} ref={cancelButtonRef}
                                         >
                                             Cancel
                                         </button>
@@ -180,6 +204,8 @@ export const Login = () => {
                 </Dialog>
             </Transition.Root>
         </>
+        :
+        <button id='loginButton' className="inline-flex items-center border-0 py-1 px-6 focus:outline-none rounded text-base mt-4 md:mt-0 text-white bg-indigo-500 hover:bg-indigo-600" onClick={logOut}>Log Out</button>
     )
 }
 
