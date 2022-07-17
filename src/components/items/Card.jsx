@@ -65,6 +65,13 @@ export const Card = ({ element }) => {
                         </svg>
                     </span>Dose 2: {formatLine(element.available_capacity_dose2)}
                 </p>
+                <p className="flex items-center text-gray-600 mb-2">
+                    <span className="w-4 h-4 mr-2 inline-flex items-center justify-center bg-indigo-400 text-white rounded-full flex-shrink-0">
+                        <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0" className="w-3 h-3" viewBox="0 0 48 48">
+                            <path fill='currentColor' xmlns="http://www.w3.org/2000/svg" d="M24 40 21.9 37.85 34.25 25.5H8V22.5H34.25L21.9 10.15L24 8L40 24Z" />
+                        </svg>
+                    </span>Dose 3: {formatLine(element.available_capacity-element.available_capacity_dose1-element.available_capacity_dose2)}
+                </p>
                 <p className="flex items-start text-gray-600 mb-6">
                     <span className="w-4 h-4 mr-2 inline-flex items-center justify-center bg-indigo-400 text-white rounded-full flex-shrink-0">
                         <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0" className="w-3 h-3" viewBox="0 0 48 48">

@@ -1,24 +1,24 @@
 # CoMitra
 
-![IMG](https://lh3.googleusercontent.com/-HQX9USp8qJo/YUYZQQeVnOI/AAAAAAAAAA4/CDmNqCDYikEL9sO1oHMQDjolgIbVXDbbgCLcBGAsYHQ/localhost_3000_%2B%25282%2529.png)
+![IMG](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJiwcsCaKCz1UbNEDOgkZbpgz-vSe_D-PI7_83-0IGvvdKM8Cak3vmvdtaCnVbWQWmNgU92m3nrkzOrHmcPWWvNxgxZUl7Vn17xLs8HpAi9KUstiuZNL6hVyWgg6MSrM5vTI13TF25qp5D3P559NRoD6sDJ-OUPaCxgbyTgsFbrEnFCUw6YWjQ8sRf/s1365/image.png)
 
 [CoMitra](https://soumodip-paul.github.io/CoMitra) is a vaccine finder application based on _[CoWIin Public APIS](https://apisetu.gov.in/public/marketplace/api/cowin)_ to provide the current availabilty of vaccine and download the Vaccine Certificate.
-This web application finds the current availablity status of vaccination using the __PINCODE__ of the area or using the Provied ***State and District lists*** (_This uses the official list of State and Districts In the API SETU Portal_) of a selected date. You can also find the age restrictions, Time of vaccination, Number of Doses available, Number of Dose 1 available, Number of Dose 2 available, Fees and available time slots in the application. To download your vaccination certficate you should have the Mobile Number Registered with CoWin Portal (For Auuthintication) and the ReferenceID mentioned in Appointment Slip or CoWin Portal.
+This web application finds the current availablity status of vaccination using the __PINCODE__ of the area or using the Provied ***State and District lists*** (_This uses the official list of State and Districts In the API SETU Portal_) of a selected date. You can also find the age restrictions, Time of vaccination, Number of Doses available, Number of Dose 1 available, Number of Dose 2 available, Number of Dose 3 available, Fees and available time slots in the application. To download your vaccination certficate you should have the Mobile Number Registered with CoWin Portal (For Auuthintication) and the ReferenceID mentioned in Appointment Slip or CoWin Portal.
 
-![IMG](https://lh3.googleusercontent.com/-1qvPm__VROI/YUYZQVcfXmI/AAAAAAAAAA8/xNkjOMjo-pkNatNVs9OHaOHRpBtWQFsmQCLcBGAsYHQ/localhost_3000_%2B%25283%2529.png)
+![IMG](https://blogger.googleusercontent.com/img/a/AVvXsEglsl4ASVE56YP8YL3qH1Yw6xOtrkd-UBgbjRyoLiScuxBtlu399CfVJyVKW9Ey_rH6g8bN6f17Re3UVRFJTlW043uWYNiVk0gWNdaoLftmNR0z1lXa7n9Yj5hW_0b3tMSkijdVuKNA_gB4G4MBSzXirWvFPQAUjNMLgj9vFR5pIhOsdgtutVRlWk41)
 
 > __We donot collect or share your personal data like Phone Number Or AuthToken.__
 
 ## Functions
 
-1. You can find the Availabe Vaccination centers using the ___PINCDE___.
-2. You can find the Available VAccination centers using the ___State and District Names___.
+1. You can find the Availabe Vaccination centers using the ___PINCODE___.
+2. You can find the Available Vaccination centers using the ___State and District Names___.
 3. You can Search and filter the results.
 4. You can download the Vaccinationation Certificate
 
-> TRY OUT this Application from [here](https://soumodip-paul.github.io/CoMitra/)
+> TRY OUT this Application from [here](https://comitra.ga/)
 
-![IMG](https://lh3.googleusercontent.com/-rvKAFc_152U/YUYZQv6DVlI/AAAAAAAAABE/SoX3gYf4aDQlVG7yc2Tfi_j3BQUSHqSmgCLcBGAsYHQ/localhost_3000_%2B%25281%2529.png)
+![IMG](https://blogger.googleusercontent.com/img/a/AVvXsEh39a5Pdmv8Corg9CuUsD4QChKq7KQVd-9pnsfwbmElx6nAzX9pR-6KRdU8USsmuzKtySw4E30eTMHiA5pWXyh4V5DU2Os1KkHX785A3k8F4cdpkwSTryt4DUZojF0aK43ugXD1FWuyFArfQwJFfM74w8L8pYxehgYLnbHbuH0oEgBKQ6VEo6c3UIAv)
 
 
 ## Developer Guide 

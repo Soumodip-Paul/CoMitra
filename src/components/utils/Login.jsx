@@ -210,22 +210,22 @@ export const Login = () => {
 }
 
 
-export const LoginButton = () => {
-    const modalId = "login"
-    const login = useContext(Auth)
-    const { authToken, setAuthToken } = login;
-    const logOut = e => {
-        setAuthToken(null)
-        window.sessionStorage.removeItem(tokenLable)
-    }
-    useEffect(() => {
-        setAuthToken(window.sessionStorage.getItem(tokenLable))
-    }, [setAuthToken])
-    return (
-        !authToken ?
-            <button type="button" id="loginButton" className="btn btn-success rounded-pill px-4 float-end" data-bs-toggle="modal" data-bs-target={`#${modalId}`}>
-                Log In
-            </button>
-            : <button type="button" className="btn btn-success float-end" onClick={logOut}>Log Out</button>
-    )
-}
+// export const LoginButton = () => {
+//     const modalId = "login"
+//     const login = useContext(Auth)
+//     const { authToken, setAuthToken } = login;
+//     const logOut = e => {
+//         setAuthToken(null)
+//         window.sessionStorage.removeItem(tokenLable)
+//     }
+//     useEffect(() => {
+//         setAuthToken(window.sessionStorage.getItem(tokenLable))
+//     }, [setAuthToken])
+//     return (
+//         !authToken ?
+//             <button type="button" id="loginButton" className="btn btn-success rounded-pill px-4 float-end" data-bs-toggle="modal" data-bs-target={`#${modalId}`}>
+//                 Log In
+//             </button>
+//             : <button type="button" className="btn btn-success float-end" onClick={logOut}>Log Out</button>
+//     )
+// }

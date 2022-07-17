@@ -11,6 +11,7 @@ export const Search = () => {
     const [loading, setLoading] = useState(false)
     const [dose1Filter, setDose1Filter] = useState(false)
     const [dose2Filter, setDose2Filter] = useState(false)
+    const [dose3Filter, setDose3Filter] = useState(false)
     const [free, setFree] = useState(false)
     const [paid, setPaid] = useState(false)
     const [search, setSearch] = useState('')
@@ -40,12 +41,15 @@ export const Search = () => {
     }
 
     const filter = sessions => sessions.filter(e => {
+        e.available_capacity_dose3 = 
+        e.available_capacity - e.available_capacity_dose1 - e.available_capacity_dose2
         return e.available_capacity !== 0 &&
             (
                 (
                     !(dose1Filter && e.available_capacity_dose1 === 0) &&
-                    !(dose2Filter && e.available_capacity_dose2 === 0)
-                ) || (dose1Filter && dose2Filter)
+                    !(dose2Filter && e.available_capacity_dose2 === 0) &&
+                    !(dose3Filter && e.available_capacity_dose3 === 0)
+                ) || (dose1Filter && dose2Filter && dose3Filter)
             ) &&
             (
                 (
@@ -78,8 +82,9 @@ export const Search = () => {
     })
 
     const DoseFilter = e => {
-        setDose1Filter(e.target.value !== "0")
-        setDose2Filter(e.target.value !== "1")
+        setDose1Filter(e.target.value === "0")
+        setDose2Filter(e.target.value === "1")
+        setDose3Filter(e.target.value === "2")
     }
 
     const PriceFilter = e => {
@@ -95,7 +100,7 @@ export const Search = () => {
 
     const LoadSessions = () => {
         let activeSessions = filter(sessions)
-        if (sessions.length !== 0) {
+        if (activeSessions.length !== 0) {
             return (
 
                 <CardGrid>
@@ -152,7 +157,7 @@ export const Search = () => {
                                         </div>
                                         <div className="flex w-full mx-auto px-8 space-x-0 sm:space-y-0 space-y-4 sm:px-0 items-end mb-2">
                                             <div className="relative flex-grow w-full">
-                                                <input type="text" id="searchVC" name="searchVC" className="w-full bg-gray-100 bg-opacity-50 rounded-l-lg border-2 border-r-0 border-gray-300 focus:border-indigo-500 focus:bg-transparent  text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out placeholder:font-sans" placeholder='Search Here (Ctrl-K)' value={search} onChange={e => setSearch(e.target.value)} />
+                                                <input type="text" id="searchVC" name="searchVC" className="w-full bg-gray-100 bg-opacity-50 rounded-l-lg border-2 border-r-0 border-gray-300 focus:border-indigo-500 focus:bg-transparent  text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out placeholder:font-sans" placeholder='Search Here (Ctrl-/)' value={search} onChange={e => setSearch(e.target.value)} />
                                             </div>
                                             <button className="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded-r-lg text-lg" onClick={e => clearAll()}>Clear</button>
                                         </div>
@@ -171,6 +176,7 @@ export const Search = () => {
                                                     <option value={-1}>All</option>
                                                     <option value={0}>Dose 1</option>
                                                     <option value={1}>Dose 2</option>
+                                                    <option value={2}>Dose 3</option>
                                                 </select>
                                             </div>
                                             <div className="relative flex-grow w-full">
