@@ -2,7 +2,7 @@
 
 ![IMG](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhJiwcsCaKCz1UbNEDOgkZbpgz-vSe_D-PI7_83-0IGvvdKM8Cak3vmvdtaCnVbWQWmNgU92m3nrkzOrHmcPWWvNxgxZUl7Vn17xLs8HpAi9KUstiuZNL6hVyWgg6MSrM5vTI13TF25qp5D3P559NRoD6sDJ-OUPaCxgbyTgsFbrEnFCUw6YWjQ8sRf/s1365/image.png)
 
-[CoMitra](https://soumodip-paul.github.io/CoMitra) is a vaccine finder application based on _[CoWIin Public APIS](https://apisetu.gov.in/public/marketplace/api/cowin)_ to provide the current availabilty of vaccine and download the Vaccine Certificate.
+[CoMitra](https://comitra.cooldeveloper.live/) is a vaccine finder application based on _[CoWIin Public APIS](https://apisetu.gov.in/public/marketplace/api/cowin)_ to provide the current availabilty of vaccine and download the Vaccine Certificate.
 This web application finds the current availablity status of vaccination using the __PINCODE__ of the area or using the Provied ***State and District lists*** (_This uses the official list of State and Districts In the API SETU Portal_) of a selected date. You can also find the age restrictions, Time of vaccination, Number of Doses available, Number of Dose 1 available, Number of Dose 2 available, Number of Dose 3 available, Fees and available time slots in the application. To download your vaccination certficate you should have the Mobile Number Registered with CoWin Portal (For Auuthintication) and the ReferenceID mentioned in Appointment Slip or CoWin Portal.
 
 ![IMG](https://blogger.googleusercontent.com/img/a/AVvXsEglsl4ASVE56YP8YL3qH1Yw6xOtrkd-UBgbjRyoLiScuxBtlu399CfVJyVKW9Ey_rH6g8bN6f17Re3UVRFJTlW043uWYNiVk0gWNdaoLftmNR0z1lXa7n9Yj5hW_0b3tMSkijdVuKNA_gB4G4MBSzXirWvFPQAUjNMLgj9vFR5pIhOsdgtutVRlWk41)
